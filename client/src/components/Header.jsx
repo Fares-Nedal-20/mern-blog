@@ -8,12 +8,15 @@ export default function Header() {
   const path = useLocation().pathname;
   return (
     <Navbar className="border-b-2 p-3">
-      <h1 className="text-lg sm:text-2xl font-semibold dark:text-white whitespace-nowrap">
-        <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg py-2 px-1 text-white">
+      <Link
+        to="/"
+        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+      >
+        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
           Fares's
-        </span>{" "}
+        </span>
         Blog
-      </h1>
+      </Link>
       <form className="hidden md:inline">
         <TextInput
           type="text"
@@ -30,7 +33,11 @@ export default function Header() {
         <Button color="gray" pill>
           <FaMoon />
         </Button>
-        <Button>SignUp</Button>
+        <Link to="/sign-in">
+          <Button gradientDuoTone="purpleToBlue" outline>
+            Sign In
+          </Button>
+        </Link>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
