@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Label, Spinner, TextInput } from "flowbite-react";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
+  const { currentUser, error, loading } = useSelector((state) => state.user);
 
   const handleChange = async (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -15,8 +20,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      setError(false);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,14 +28,15 @@ export default function SignIn() {
       });
       const data = await res.json();
       console.log(data);
-      if (data.success === false) {
-        setLoading(false);
-        setError(data.messege);
+      if (!res.ok) {
+        dispatch(signInFailure(data.messege));
         return;
       }
-      setLoading(false);
+      if (res.ok) {
+        dispatch(signInSuccess(data));
+      }
     } catch (error) {
-      setError(error.messege);
+      dispatch(signInFailure(data.messege));
     }
   };
 
@@ -73,13 +78,20 @@ export default function SignIn() {
               />
             </div>
 
-            <Button type="submit" outline gradientDuoTone="purpleToBlue" disabled={loading}>
+            <Button
+              type="submit"
+              outline
+              gradientDuoTone="purpleToBlue"
+              disabled={loading}
+            >
               {loading ? (
                 <div>
-                  <Spinner size="sm" className="mr-2"/>
+                  <Spinner size="sm" className="mr-2" />
                   <span>Loading</span>
                 </div>
-              ): "Sign In"}
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
           <div className="mt-5 flex gap-2 text-sm">
@@ -88,7 +100,7 @@ export default function SignIn() {
               Sign Up
             </Link>
           </div>
-          {error && <p className="text-red-700 mt-3 text-sm">{error}</p>}
+          {error && <Alert className="mt-5" color="failure">{error}</Alert>}
         </div>
       </div>
     </div>
