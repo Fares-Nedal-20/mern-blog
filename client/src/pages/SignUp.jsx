@@ -47,7 +47,7 @@ export default function SignUp() {
             Blog
           </Link>
           <p className="text-sm text-gray-500">
-            This is a demo project. You can sign in with your email and password
+            This is a demo project. You can sign up with your email and password
             or with Google.
           </p>
         </div>
@@ -88,7 +88,7 @@ export default function SignUp() {
                   <Spinner size="sm" className="mr-2"/>
                   <span>Loading</span>
                 </div>
-              ): "Sign In"}
+              ): "Sign Up"}
             </Button>
           </form>
           <div className="mt-5 flex gap-2 text-sm">
