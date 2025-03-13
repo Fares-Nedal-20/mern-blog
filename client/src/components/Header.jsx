@@ -1,10 +1,14 @@
 import React from "react";
 import { Button, Navbar, TextInput } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { themeToggle } from "../redux/theme/ThemeSlice";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.theme);
   const path = useLocation().pathname;
   return (
     <Navbar className="border-b-2 p-3">
@@ -30,8 +34,8 @@ export default function Header() {
         </Button>
       </form>
       <div className="flex gap-2 items-center md:order-1">
-        <Button color="gray" pill>
-          <FaMoon />
+        <Button  color="gray" pill onClick={() => dispatch(themeToggle())}>
+          {theme === "dark" ? <FaSun /> : <FaMoon />}
         </Button>
         <Link to="/sign-in">
           <Button gradientDuoTone="purpleToBlue" outline>
