@@ -8,11 +8,11 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Sidebar section */}
-      <div className="w-full md:w-56">
+      <div className="md:w-56">
         <DashSidebar />
       </div>
       {/* Profile and ... sections */}
-      <div>
+      <div className="flex-1">
         <DashProfile />
       </div>
     </div>
